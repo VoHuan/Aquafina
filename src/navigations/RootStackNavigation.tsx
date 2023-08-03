@@ -6,6 +6,8 @@ import {Provider} from 'react-redux';
 
 import LoginScreen from '../screens/LoginScreen';
 import QuantityScreen from '../screens/QuantityScreen';
+import ScanQRScreen from '../screens/ScanQRScreen';
+import StaticsScreen from '../screens/StatisticsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
@@ -15,9 +17,11 @@ const RootStackNavigation = () => {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{headerShown: false}}
-          initialRouteName="QuantityScreen">
-          {/* <Stack.Screen name="LoginScreen" component={LoginScreen} /> */}
+          initialRouteName="LoginScreen">
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="QuantityScreen" component={QuantityScreen} />
+          <Stack.Screen name="ScanQRScreen" component={ScanQRScreen} />
+          <Stack.Screen name="StaticsScreen" component={StaticsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
    // </Provider>

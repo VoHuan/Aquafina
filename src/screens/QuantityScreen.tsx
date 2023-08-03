@@ -25,11 +25,12 @@ type QuantityScreenProps = {
 const QuantityScreen: React.FC<QuantityScreenProps> = ({ navigation, route }) => {
     return (
         <View style={styles.container}>
-            
+
             <Background />
             <Header />
             <View style={styles.switchButton}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} 
+                >
                     <ImageBackground
                         source={Constants.BACKGROUND_SMALL_BLUE_BUTTON}
                         style={styles.backgroundSmallBlueButton}
@@ -37,70 +38,35 @@ const QuantityScreen: React.FC<QuantityScreenProps> = ({ navigation, route }) =>
                         <Text style={styles.textQuantityButton}>Số lượng</Text>
                     </ImageBackground>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button}
+                onPress={() => {
+                    navigation.replace('StaticsScreen')
+                }}>
                     <Text style={styles.textStatisticsButton}>Thống kê</Text>
                 </TouchableOpacity>
             </View>
             <Text style={{
-                fontSize: FontSizes.h2,
+                fontSize: FontSizes.h3,
                 fontFamily: 'SVN-Gotham Regular',
                 color: Colors.MEDIUM_BLUE,
                 textAlign: 'center',
-                marginTop: 20
+                marginTop: 15
             }}>Vui lòng nhập số lượng chai</Text>
 
-            <View style={{ marginTop: 32, justifyContent: 'space-between', height: 79 }}>
-                <Text style={{
-                    fontSize: FontSizes.h5,
-                    fontFamily: 'SVN-Gotham Regular',
-                    color: Colors.PRIMARY,
-                    marginLeft: 16
-                    //fontWeight:450,
-                }}>Chai Aqua</Text>
+            <View style={{ marginTop: 22, justifyContent: 'space-between', height: 79 }}>
+                <Text style={styles.label}>Chai Aqua</Text>
                 <TextInput
-                    style={{
-                        //width:343,
-                        height: 48,
-                        backgroundColor: Colors.WHITE,
-                        borderRadius: 8,
-                        borderWidth: 1,
-                        borderColor: '#CCDAF1',
-                        paddingHorizontal: 12,
-                        marginHorizontal: 16,
-                        fontSize: FontSizes.h5,
-                        fontFamily: 'SVN-Gotham Book',
-                        color: Colors.DARK_GREY
-
-                    }}
+                    style={styles.input}
                 ></TextInput>
                 <TouchableOpacity style={styles.x_circle_icon}>
                     <Image source={Constants.X_CIRCLE_ICON} ></Image>
                 </TouchableOpacity>
             </View>
 
-            <View style={{ marginTop: 24, justifyContent: 'space-between', height: 79 }}>
-                <Text style={{
-                    fontSize: FontSizes.h5,
-                    fontFamily: 'SVN-Gotham Regular',
-                    color: Colors.PRIMARY,
-                    marginLeft: 16
-                    //fontWeight:450,
-                }}>Chai khác</Text>
+            <View style={{ marginTop: 14, justifyContent: 'space-between', height: 79 }}>
+                <Text style={styles.label}>Chai khác</Text>
                 <TextInput
-                    style={{
-                        //width:343,
-                        height: 48,
-                        backgroundColor: Colors.WHITE,
-                        borderRadius: 8,
-                        borderWidth: 1,
-                        borderColor: '#CCDAF1',
-                        paddingHorizontal: 12,
-                        marginHorizontal: 16,
-                        fontSize: FontSizes.h5,
-                        fontFamily: 'SVN-Gotham Book',
-                        color: Colors.DARK_GREY
-
-                    }}
+                    style={styles.input}
                 ></TextInput>
                 <TouchableOpacity style={styles.x_circle_icon}>
                     <Image source={Constants.X_CIRCLE_ICON} ></Image>
@@ -125,8 +91,10 @@ const QuantityScreen: React.FC<QuantityScreenProps> = ({ navigation, route }) =>
             </View>
 
             <View style={{
-                marginTop:70,
-                
+                flex: 1,
+                justifyContent: 'flex-end',
+                marginBottom: 15
+
             }}>
                 <UIButton
                     onPress={async () => { }}
@@ -155,9 +123,7 @@ const styles = StyleSheet.create({
         shadowColor: '#0056D533',
         shadowOpacity: 0.2,
         elevation: 6,
-        marginTop: 20,
-
-
+        marginTop: 15,
     },
     backgroundSmallBlueButton: {
         width: 340 / 2,
@@ -206,7 +172,27 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.WHITE,
         marginTop: 20,
 
-    }
+    },
+    label: {
+        fontSize: FontSizes.h5,
+        fontFamily: 'SVN-Gotham Regular',
+        color: Colors.PRIMARY,
+        marginLeft: 16
+        //fontWeight:450,
+    },
+    input: {
+        //width:343,
+        height: 48,
+        backgroundColor: Colors.WHITE,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#CCDAF1',
+        paddingHorizontal: 12,
+        marginHorizontal: 16,
+        fontSize: FontSizes.h5,
+        fontFamily: 'SVN-Gotham Book',
+        color: Colors.DARK_GREY
+    },
 })
 
 

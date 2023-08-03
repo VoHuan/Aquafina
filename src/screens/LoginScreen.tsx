@@ -48,7 +48,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation, route }) => {
 
     <View style={styles.groupButton}>
       <UIButton 
-      onPress={async () => {}}
+      onPress={ () => {
+        navigation.replace('ScanQRScreen')
+      }}
       text='Quét Mã'
       background={Constants.BACKGROUND_BLUE_BUTTON}
       disable = {false}></UIButton>
@@ -85,11 +87,13 @@ const styles = StyleSheet.create({
     //backgroundColor:'green' 
   },
   groupButton: {
+    flex:1,
     marginTop:70,
     height:112,
     //backgroundColor: 'green',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginBottom:15
   },
   
 });
