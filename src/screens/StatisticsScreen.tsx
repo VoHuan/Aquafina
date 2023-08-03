@@ -13,9 +13,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import Constants from '../ultils/Constants';
 import Colors from '../ultils/Colors';
 import FontSizes from '../ultils/FontSizes';
-import Background from '../components/Background';
-import Header from '../components/Header';
-import UIButton from '../components/UIButton';
 import DataTable from '../components/DataTable';
 import Pagination from '../components/Pagination';
 
@@ -25,32 +22,12 @@ type StaticsScreenProps = {
 };
 
 
-const StaticsScreen: React.FC<StaticsScreenProps> = ({ navigation, route }) => {
+const StaticsScreen = () => {
     
     return (
         <View style={styles.container}>
-            <Background />
-            <Header />
-            <View style={styles.switchButton}>
-                <TouchableOpacity style={styles.button}
-                onPress={() => {
-                    navigation.replace('QuantityScreen')
-                }}>
-                    <Text style={styles.textStatisticsButton}>Số lượng</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} 
-                >
-                    <ImageBackground
-                        source={Constants.BACKGROUND_SMALL_BLUE_BUTTON}
-                        style={styles.backgroundSmallBlueButton}
-                    >
-                        <Text style={styles.textQuantityButton}>Thống kê</Text>
-                    </ImageBackground>
-                </TouchableOpacity>
-            </View>
-
-            <View style={{ marginTop: 15, marginHorizontal: 16 }}>
-                <View style={{ height: 74, marginBottom: 16 }}>
+            <View style={{ marginTop: 10, marginHorizontal: 16 }}>
+                <View style={{ height: 64, marginBottom: 16 }}>
                     <Text style={styles.label}>
                         Tổng sức chứa
                     </Text>
@@ -59,7 +36,7 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({ navigation, route }) => {
                     </View>
                 </View>
 
-                <View style={{ height: 74 }}>
+                <View style={{ height: 64 }}>
                     <Text style={styles.label}>
                         Sức chứa còn lại
                     </Text>
@@ -68,7 +45,7 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({ navigation, route }) => {
                     </View>
                 </View>
             </View>
-            <View style={{ marginVertical: 20 }}>
+            <View style={{ marginTop: 20, marginBottom:10 }}>
                 <TouchableOpacity style={styles.resetButton}>
                     <Text style={styles.textResetButton}>
                         Đặt lại
@@ -84,12 +61,6 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({ navigation, route }) => {
             ></DataTable>
 
             <Pagination totalPages ={4} startIndex={1} endIndex={10} ></Pagination>
-            <UIButton
-                    onPress={async () => { }}
-                    text='Xác nhận'
-                    background={Constants.BACKGROUND_BLUE_BUTTON}
-                    disable={false}></UIButton>
-
         </View>
     )
 }
@@ -99,44 +70,6 @@ export default StaticsScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1
-    },
-    switchButton: {
-        //width:340,
-        height: 46,
-        backgroundColor: "white",
-        marginHorizontal: 16,
-        flexDirection: 'row',
-        borderRadius: 8,
-        borderColor: '#0056D533',
-        shadowColor: '#0056D533',
-        shadowOpacity: 0.2,
-        elevation: 6,
-        marginTop: 15,
-    },
-    button: {
-        flex: 1,
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        //backgroundColor:'pink'
-    },
-    textQuantityButton: {
-        fontSize: FontSizes.h5,
-        fontFamily: 'SVN-Gotham Regular',
-        color: Colors.WHITE
-    },
-    textStatisticsButton: {
-        fontSize: FontSizes.h5,
-        fontFamily: 'SVN-Gotham Regular',
-        color: Colors.DARK_GREY
-    },
-    backgroundSmallBlueButton: {
-        width: 340 / 2,
-        height: 46,
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        borderRadius: 8
     },
     label: {
         fontSize: FontSizes.h5,

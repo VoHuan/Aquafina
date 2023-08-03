@@ -3,4 +3,5 @@ export type RootStackParams = {
   QuantityScreen: undefined;
   ScanQRScreen: undefined;
   StaticsScreen: undefined;
+  HomeScreen : undefined;
 };
