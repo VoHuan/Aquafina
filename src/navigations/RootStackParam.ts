@@ -4,4 +4,5 @@ export type RootStackParams = {
   ScanQRScreen: undefined;
   StaticsScreen: undefined;
   HomeScreen : undefined;
+  PopupRefresh : undefined;
 };

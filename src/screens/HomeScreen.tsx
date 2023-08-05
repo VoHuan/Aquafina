@@ -18,36 +18,66 @@ import Header from '../components/Header';
 import UIButton from '../components/UIButton';
 import QuantityScreen from './QuantityScreen';
 import StaticsScreen from './StatisticsScreen';
+import PopupRefresh from '../components/PopupRefresh';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../app/store';
+import { fetchRecycle } from '../features/recycling/recycleSlice';
+import { Action, ThunkDispatch } from '@reduxjs/toolkit';
+
+
 type HomeScreenProps = {
     navigation: any;
     route: any;
 };
 
+interface MyObject {
+    AquaBottles: number;
+    OtherBottles: number;
+    quantity: number;
+    time: string;
+}
+
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
 
     const [selectQuantityButton, setSelectQuantityButton] = useState(true)
 
+    const recycle = useSelector((state: RootState) => state.recycle.recycle);
+    const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>();
+    const [nameRecycle, setNameRecycle] = useState('Unknown')
+
+    // get data recycle01
+    const handleFetchRecycle = async () => {
+        if (recycle?.document !== undefined) {
+            await dispatch(fetchRecycle(recycle?.document));
+        }
+    }
+
+    useEffect(() => {
+        if (recycle?.name !== undefined && recycle?.name !== null && recycle?.name !== '') {
+            setNameRecycle(recycle?.name) // get name recycle
+        }
+        handleFetchRecycle()
+    }, [recycle]);
 
     return (
         <View style={styles.container}>
 
             <Background />
-            <Header />
+            <Header text={nameRecycle} icon={nameRecycle === 'Unknown' ? Constants.UNIDENTIFIED_USER_ICON : Constants.IDENTIFIED_USER_ICON} />
             <View style={styles.switchButton}>
                 <TouchableOpacity style={styles.button}
                     onPress={() => {
-                        //navigation.navigate('StaticsScreen')
                         setSelectQuantityButton(true)
                     }}>
                     {selectQuantityButton == true ? <ImageBackground
                         source={Constants.BACKGROUND_SMALL_BLUE_BUTTON}
                         style={styles.backgroundSmallBlueButton}>
                         <Text style={styles.textQuantityButton}>Số lượng</Text>
-                        </ImageBackground> : <Text style={styles.textStatisticsButton}>Số lượng</Text>}
+                    </ImageBackground> : <Text style={styles.textStatisticsButton}>Số lượng</Text>}
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button}
                     onPress={() => {
-                        //navigation.navigate('StaticsScreen')
                         setSelectQuantityButton(false)
                     }}>
                     {selectQuantityButton == false ? <ImageBackground
@@ -56,7 +86,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
                     >
                         <Text style={styles.textQuantityButton}>Thống kê</Text>
                     </ImageBackground>
-                    :<Text style={styles.textStatisticsButton}>Thống kê</Text>}
+                        : <Text style={styles.textStatisticsButton}>Thống kê</Text>}
                 </TouchableOpacity>
             </View>
 
@@ -71,8 +101,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
             }}>
                 <UIButton
                     onPress={async () => { }}
-                    text= {selectQuantityButton == true ?'Xuất mã QR': 'Xác nhận'}
-                    background={Constants.BACKGROUND_BLUE_BUTTON}
+                    text={selectQuantityButton == true ? 'Xuất mã QR' : 'Xác nhận'}
+                    color='blue'
                     disable={false}></UIButton>
             </View>
 

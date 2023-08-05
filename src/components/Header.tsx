@@ -3,13 +3,20 @@ import {
     View,
     Image,
     Text,
+    ImageSourcePropType,
 } from 'react-native';
 import React from 'react';
 import Constants from '../ultils/Constants';
 import Colors from '../ultils/Colors';
 import FontSizes from '../ultils/FontSizes';
 
-const Header = () => {
+
+type HeaderProps = {
+    text : string
+    icon: ImageSourcePropType;
+  };
+  
+const Header: React.FC<HeaderProps> = ({ text, icon }) => {
     return (
         <View style={styles.header}>
             <Image source={Constants.LOGO} style={styles.logo} />
@@ -17,8 +24,8 @@ const Header = () => {
                 flexDirection: 'row',
                 paddingRight: 16,
             }}>
-                <Text style={styles.nameText}>Unknown</Text>
-                <Image source={Constants.UNIDENTIFIED_USER_ICON} />
+                <Text style={styles.nameText}>{text}</Text>
+                <Image source={icon} />
             </View>
         </View>
     )

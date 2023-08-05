@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "619037098280",
+    "project_id": "aquafina-979af",
+    "storage_bucket": "aquafina-979af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619037098280:android:699eff8ef5a579e266101d",
+        "android_client_info": {
+          "package_name": "com.aquafina"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619037098280-npkrgqlgvp1jbmqi3eeneum52pfrgng4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0TrxnvOcHpyqZNLdxOdQWPuKc1wVhZhc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619037098280-npkrgqlgvp1jbmqi3eeneum52pfrgng4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619037098280:android:99fdb3ff8469b18c66101d",
+        "android_client_info": {
+          "package_name": "com.company.aquafina"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619037098280-npkrgqlgvp1jbmqi3eeneum52pfrgng4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0TrxnvOcHpyqZNLdxOdQWPuKc1wVhZhc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619037098280-npkrgqlgvp1jbmqi3eeneum52pfrgng4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

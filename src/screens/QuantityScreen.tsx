@@ -15,12 +15,13 @@ import Colors from '../ultils/Colors';
 import FontSizes from '../ultils/FontSizes';
 
 
+
+
 type QuantityScreenProps = {
-    navigation: any;
-    route: any;
+    
 };
 
-const QuantityScreen = () => {
+const QuantityScreen : React.FC<QuantityScreenProps> = ({ }) => {
     return (
         <View style={styles.container}>
             <Text style={{

@@ -10,6 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-firebase/app": "^18.3.0",
+    "@react-native-firebase/firestore": "^18.3.0",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@react-navigation/stack": "^6.3.16",
@@ -25,7 +27,8 @@
     "react-native-screens": "^3.21.0",
     "react-native-table-component": "https://github.com/slice312/react-native-table-component.git",
     "react-native-vector-icons": "^10.0.0",
-    "react-redux": "^8.1.0"
+    "react-redux": "^8.1.0",
+    "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
