@@ -8,20 +8,29 @@ import {
     Dimensions,
     TouchableOpacity,
     TextInput,
+    Animated,
+    Button,
+    InteractionManager,
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import Constants from '../ultils/Constants';
 import Colors from '../ultils/Colors';
 import FontSizes from '../ultils/FontSizes';
-
+import SuccessMesseage from '../components/SuccessMessage';
+import * as Animatable from 'react-native-animatable';
 
 
 
 type QuantityScreenProps = {
-    
+
 };
 
-const QuantityScreen : React.FC<QuantityScreenProps> = ({ }) => {
+
+
+
+const QuantityScreen: React.FC<QuantityScreenProps> = ({ }) => {
+
+    
     return (
         <View style={styles.container}>
             <Text style={{
@@ -68,7 +77,6 @@ const QuantityScreen : React.FC<QuantityScreenProps> = ({ }) => {
                     paddingTop: 25
                 }}>210</Text>
             </View>
-
         </View>
     )
 }

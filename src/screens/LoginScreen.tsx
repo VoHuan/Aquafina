@@ -58,7 +58,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation, route }) => {
     if(recycle?.name!== undefined && recycle?.name!== null && recycle?.name!== ''){
       setNameRecycle(recycle?.name)
     }
-    // handleAddData(data)
+    //handleAddData(data)
   }, [recycle]);
 
   return (<View style={styles.container}>

@@ -19,6 +19,7 @@ type QuantityScreenProps = {
 const ScanQRScreen: React.FC<QuantityScreenProps> = ({ navigation, route }) => {
 
   const recycle = useSelector((state: RootState) => state.recycle.recycle);
+  const recycle1 = useSelector((state: RootState) => state.recycle);
   const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>();
 
   const { width, height } = Dimensions.get('window');
@@ -39,9 +40,10 @@ const ScanQRScreen: React.FC<QuantityScreenProps> = ({ navigation, route }) => {
 
  
   useEffect(() => {
+    console.log(recycle1)
     console.log(recycle)
-      console.log(recycle?.Exchanges)
-      console.log(typeof recycle?.Exchanges )
+    console.log(recycle?.Exchanges)
+    console.log(typeof recycle?.Exchanges )
 }, [recycle]);
 
   // UI ScanQR screen

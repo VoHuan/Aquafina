@@ -8,6 +8,8 @@ import {
     Dimensions,
     TouchableOpacity,
     TextInput,
+    Animated,
+    InteractionManager,
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import Constants from '../ultils/Constants';
@@ -24,6 +26,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
 import { fetchRecycle } from '../features/recycling/recycleSlice';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
+import SuccessMesseage from '../components/SuccessMessage';
 
 
 type HomeScreenProps = {
@@ -41,8 +44,11 @@ interface MyObject {
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
 
     const [selectQuantityButton, setSelectQuantityButton] = useState(true)
+    
+    const pan = useRef(new Animated.ValueXY({ x: 0, y: -500 })).current;
 
     const recycle = useSelector((state: RootState) => state.recycle.recycle);
+    const recycle1 = useSelector((state: RootState) => state.recycle);
     const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>();
     const [nameRecycle, setNameRecycle] = useState('Unknown')
 
@@ -59,6 +65,27 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
         }
         handleFetchRecycle()
     }, [recycle]);
+
+
+    const handleNotificationSuccess = (reset: boolean) => {
+        if(reset == true){
+            Animated.timing(pan, {
+                toValue: { x: 0, y:-80 },
+                duration: 500,
+                useNativeDriver: true,
+            }).start(() => {
+                InteractionManager.runAfterInteractions(() => {
+                    // Animate back to origin
+                    Animated.timing(pan, {
+                        toValue: { x: 0, y: -500 },
+                        duration: 500,
+                        useNativeDriver: true,
+                        delay: 500, 
+                    }).start();
+                })
+            })
+        }    
+    }
 
     return (
         <View style={styles.container}>
@@ -90,9 +117,27 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
                 </TouchableOpacity>
             </View>
 
-            <View style={styles.body}>
-                {selectQuantityButton == true ? <QuantityScreen /> : <StaticsScreen />}
+            {/* Success Notification */}
+            <View >
+                <Animated.View
+                    style={{
+                        transform: [{ translateX: pan.x }, { translateY: pan.y }],
+                        position: 'absolute',
+                        width: '100%',
+                        alignItems: 'center',
+                    }}
+                >
+                    <SuccessMesseage />
+                </Animated.View>
             </View>
+            
+
+            
+            <View style={styles.body}>
+                {selectQuantityButton == true ? <QuantityScreen /> : <StaticsScreen callback={handleNotificationSuccess} />}
+            </View>
+
+            
             <View style={{
                 flex: 1,
                 justifyContent: 'flex-end',
@@ -100,11 +145,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
 
             }}>
                 <UIButton
-                    onPress={async () => { }}
+                    onPress={()=>{}}
                     text={selectQuantityButton == true ? 'Xuất mã QR' : 'Xác nhận'}
                     color='blue'
                     disable={false}></UIButton>
             </View>
+
+            
 
         </View>
     )

@@ -20,6 +20,7 @@ interface ButtonWithTextProps {
 const UIButton: React.FC<ButtonWithTextProps> = ({ onPress, text, color, disable }) => {
     return (
         <TouchableOpacity
+            activeOpacity={0.5}
             onPress={onPress}
             disabled={disable}>
             <ImageBackground

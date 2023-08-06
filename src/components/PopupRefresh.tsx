@@ -9,26 +9,12 @@ import { RootState } from '../app/store';
 import { Action } from '@reduxjs/toolkit';
 
 interface ChildComponentProps {
-    callback: (data: boolean) => void;
-    visible: boolean
-  }
+    callback: (visible: boolean, reset: boolean) => void;  // visible value always return false to stop popup refesh
+    visible: boolean   // visible value to turn on or turn off popup refresh
+}
 
-const PopupRefresh: React.FC<ChildComponentProps> = ({ callback , visible}) => {
-    const recycle = useSelector((state: RootState) => state.recycle.recycle);
-    const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>();
+const PopupRefresh: React.FC<ChildComponentProps> = ({ callback, visible }) => {
 
-    const handleResetDataTable = async () => {
-        if(recycle?.document !== undefined){
-            await dispatch(resetDataInFirebase(recycle?.document))
-        }
-    }
-
-    const handleFetchRecycle = async () => {
-        if(recycle?.document !== undefined){
-            await dispatch(fetchRecycle(recycle?.document));
-        }
-      }
-   
     return (
         <Modal visible={visible} transparent>
             <View style={styles.container}>
@@ -36,15 +22,15 @@ const PopupRefresh: React.FC<ChildComponentProps> = ({ callback , visible}) => {
                     <Text style={styles.bigTitle}>Bạn có muốn đặt lại hệ thống?</Text>
                     <Text style={styles.smallTitle}>Tất cả dữ liệu sẽ được đặt lại</Text>
                     <View style={styles.groupButton}>
-                        <TouchableOpacity style={styles.closeButton} onPress={()=>{
-                            callback(false)
+                        <TouchableOpacity style={styles.closeButton} onPress={() => {
+                            callback(false, false)
                         }}>
                             <Text style={styles.closeButtonText}>Hủy</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.okButton} onPress={()=>{
-                            handleResetDataTable()
-                            callback(false)
-                            handleFetchRecycle()
+                        <TouchableOpacity style={styles.okButton} onPress={() => {
+                           // handleResetDataTable()
+                            callback(false, true)
+                            //handleFetchRecycle()
                         }}>
                             <Text style={styles.okButtonText}>Đặt lại</Text>
                         </TouchableOpacity>
@@ -74,52 +60,52 @@ const styles = StyleSheet.create({
         elevation: 4,
     },
     closeButton: {
-        width:132,
-        height:48,
+        width: 132,
+        height: 48,
         backgroundColor: 'white',
         borderRadius: 8,
-        justifyContent:"center",
-        borderColor:Colors.PRIMARY,
-        borderWidth:1,
-        marginRight:8
+        justifyContent: "center",
+        borderColor: Colors.PRIMARY,
+        borderWidth: 1,
+        marginRight: 8
 
     },
     closeButtonText: {
         color: Colors.PRIMARY,
         fontSize: 18,
-        textAlign:'center',
+        textAlign: 'center',
     },
     okButton: {
-        width:132,
-        height:48,
+        width: 132,
+        height: 48,
         backgroundColor: Colors.PRIMARY,
         borderRadius: 8,
-        justifyContent:"center",
+        justifyContent: "center",
         //marginLeft:10
-        marginLeft:8
+        marginLeft: 8
     },
     okButtonText: {
         color: Colors.WHITE,
         fontSize: 18,
-        textAlign:'center',
+        textAlign: 'center',
     },
-    groupButton:{ 
-        width:280,
-        height:48,
+    groupButton: {
+        width: 280,
+        height: 48,
         flexDirection: 'row',
-        justifyContent:'space-around',
+        justifyContent: 'space-around',
     },
-    bigTitle:{
+    bigTitle: {
         fontFamily: 'SVN-Gotham Regular',
         color: '#00122F',
         fontSize: FontSizes.h4,
     },
-    smallTitle:{
+    smallTitle: {
         fontFamily: 'SVN-Gotham Book',
         color: '#707172',
         fontSize: FontSizes.h5,
-        marginTop:10,
-        marginBottom:20
+        marginTop: 10,
+        marginBottom: 20
     }
 });
 

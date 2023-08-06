@@ -8,6 +8,8 @@ import {
     Dimensions,
     TouchableOpacity,
     TextInput,
+    Animated,
+    InteractionManager,
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import Constants from '../ultils/Constants';
@@ -22,8 +24,10 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import PopupRefresh from '../components/PopupRefresh';
 
 import { fetchRecycle, resetDataInFirebase } from '../features/recycling/recycleSlice';
+import SuccessMesseage from '../components/SuccessMessage';
 
 type StaticsScreenProps = {
+    callback: (reset: boolean) => void;
 };
 
 interface MyObject {
@@ -34,19 +38,41 @@ interface MyObject {
 }
 
 
-const StaticsScreen: React.FC<StaticsScreenProps> = ({ }) => {
+const StaticsScreen: React.FC<StaticsScreenProps> = ({callback }) => {
 
     const recycle = useSelector((state: RootState) => state.recycle.recycle);
     const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [visiblePopupRresh, setVisiblePopupRresh] = useState(false)
+    const [reset, setReset] = useState(false)
+
+
 
 
     const totalOfLineData: number = recycle?.Exchanges != undefined ? recycle?.Exchanges.length : 0
     const totalPages = totalOfLineData % 5 > 0 ? Math.floor(totalOfLineData / 5) + 1 : Math.floor(totalOfLineData / 5)  // total pages of pagination
     const startIndex = 5 * currentPage - 5  // start line data of table
     const endIndex = startIndex + 5    // end line data of table
+
+    const handleNextPage = () => {
+        setCurrentPage(currentPage + 1)
+    }
+
+    const handlePrevPage = () => {
+        setCurrentPage(currentPage - 1)
+    }
+
+    const handleSetVisiblePopup = (visible: boolean, reset: boolean) => {
+        setVisiblePopupRresh(visible);
+        setReset(reset)  
+    };
+
+    const handleFetchRecycle = async () => {
+        if (recycle?.document !== undefined) {
+            await dispatch(fetchRecycle(recycle?.document));
+        }
+    }
 
     const data: MyObject[] | undefined | null = recycle?.Exchanges
 
@@ -80,15 +106,6 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({ }) => {
 
     const convertedArray = convertObjectToArray(data, startIndex, endIndex);
 
-
-    const handleNextPage = () => {
-        setCurrentPage(currentPage + 1)
-    }
-
-    const handlePrevPage = () => {
-        setCurrentPage(currentPage - 1)
-    }
-
     const renderPagination = () => {
         const pageButtons = []
 
@@ -112,20 +129,28 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({ }) => {
         return pageButtons
     }
 
-    const handleSetVisiblePopup = (data: boolean) => {
-        setVisiblePopupRresh(data);
-    };
-
-    const handleFetchRecycle = async () => {
-        if (recycle?.document !== undefined) {
-            await dispatch(fetchRecycle(recycle?.document));
-        }
-
-    }
-
     useEffect(() => {
         handleFetchRecycle
     }, [recycle]);
+
+
+    const handleResetDataTable = async () => {
+        if (recycle?.document !== undefined) {
+            let success = await dispatch(resetDataInFirebase(recycle?.document))
+            // reset success
+            if(success){
+                callback(true)  // callback HomeScreen display SuccessMesseage
+            }
+        }
+    }
+
+    useEffect(() => {
+        if(reset==true){
+            handleResetDataTable()
+        }
+    }, [reset]);
+
+
 
     return (
         <View style={styles.container}>
@@ -274,4 +299,7 @@ const styles = StyleSheet.create({
         color: '#00122F80',
         textAlign: 'center',
     },
+
+
+
 })
