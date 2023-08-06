@@ -43,7 +43,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation, route }) => {
   {"AquaBottles": 5, "OtherBottles": 1, "quantity": 6, "time": "17/05/2023"}, 
   {"AquaBottles": 4, "OtherBottles": 6, "quantity": 10, "time": "15/03/2023"},
   {"AquaBottles": 12, "OtherBottles": 8, "quantity": 20, "time": "12/03/2023"}, 
-  {"AquaBottles": 10, "OtherBottles": 10, "quantity": 20, "time": "15/03/2023"}]
+  {"AquaBottles": 10, "OtherBottles": 10, "quantity": 20, "time": "15/03/2023"},
+  {"AquaBottles": 8, "OtherBottles": 2, "quantity": 10, "time": "15/03/2023"}, 
+  {"AquaBottles": 10, "OtherBottles": 5, "quantity": 15, "time": "16/04/2023"}, 
+  {"AquaBottles": 12, "OtherBottles": 1, "quantity": 13, "time": "17/04/2023"},
+  {"AquaBottles": 7, "OtherBottles": 7, "quantity": 14, "time": "18/04/2023"}, 
+  ]
 
   const recycle = useSelector((state: RootState) => state.recycle.recycle);
   const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>();

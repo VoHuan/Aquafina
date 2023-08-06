@@ -38,7 +38,7 @@ interface MyObject {
 }
 
 
-const StaticsScreen: React.FC<StaticsScreenProps> = ({callback }) => {
+const StaticsScreen: React.FC<StaticsScreenProps> = ({ callback }) => {
 
     const recycle = useSelector((state: RootState) => state.recycle.recycle);
     const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>();
@@ -65,7 +65,7 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({callback }) => {
 
     const handleSetVisiblePopup = (visible: boolean, reset: boolean) => {
         setVisiblePopupRresh(visible);
-        setReset(reset)  
+        setReset(reset)
     };
 
     const handleFetchRecycle = async () => {
@@ -108,22 +108,85 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({callback }) => {
 
     const renderPagination = () => {
         const pageButtons = []
+        if (currentPage == totalPages - 3) {
+            for (let i = currentPage; i < totalPages + 1; i++) {
+                pageButtons.push(
+                    <Text
+                        key={i}
+                        style={[
+                            styles.pageButton,
+                            currentPage === i && styles.activePageButton,
+                        ]}
+                        onPress={() => {
+                            setCurrentPage(i)
+                        }}
+                    >
+                        {i}
+                    </Text>
+                )
+            }
+        }
+        else if (currentPage > totalPages - 3) {
+            for (let i = totalPages - 3; i < totalPages + 1; i++) {
+                pageButtons.push(
+                    <Text
+                        key={i}
+                        style={[
+                            styles.pageButton,
+                            currentPage === i && styles.activePageButton,
+                        ]}
+                        onPress={() => {
+                            setCurrentPage(i)
+                        }}
+                    >
+                        {i}
+                    </Text>
+                )
+            }
+        }
+        else {
+            for (let i = currentPage; i < 5 + currentPage; i++) {
 
-        for (let i = 1; i < totalPages + 1; i++) {
-            pageButtons.push(
-                <Text
-                    key={i}
-                    style={[
-                        styles.pageButton,
-                        currentPage === i && styles.activePageButton,
-                    ]}
-                    onPress={() => {
-                        setCurrentPage(i)
-                    }}
-                >
-                    {i}
-                </Text>
-            )
+                if (i == currentPage + 2) {
+                    pageButtons.push(
+                        <Text
+                            key={i}
+                            style={[
+                                styles.pageButton,
+                                currentPage === i && styles.activePageButton,
+                            ]}>...</Text>
+                    )
+                    continue;
+                }
+                if (i == 5 + currentPage - 2) {
+                    pageButtons.push(
+                        <Text key={i}
+                            style={[
+                                styles.pageButton,
+                                currentPage === i && styles.activePageButton,
+                            ]}
+                            onPress={() => {
+                                setCurrentPage(i)
+                            }}
+                        >{totalPages.toString()}</Text>
+                    )
+                    break;
+                }
+                pageButtons.push(
+                    <Text
+                        key={i}
+                        style={[
+                            styles.pageButton,
+                            currentPage === i && styles.activePageButton,
+                        ]}
+                        onPress={() => {
+                            setCurrentPage(i)
+                        }}
+                    >
+                        {i}
+                    </Text>
+                )
+            }
         }
 
         return pageButtons
@@ -138,14 +201,14 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({callback }) => {
         if (recycle?.document !== undefined) {
             let success = await dispatch(resetDataInFirebase(recycle?.document))
             // reset success
-            if(success){
+            if (success) {
                 callback(true)  // callback HomeScreen display SuccessMesseage
             }
         }
     }
 
     useEffect(() => {
-        if(reset==true){
+        if (reset == true) {
             handleResetDataTable()
         }
     }, [reset]);
@@ -270,6 +333,7 @@ const styles = StyleSheet.create({
 
 
     paginationContainer: {
+        //width:164,
         flexDirection: 'row',
         justifyContent: 'flex-end',
         marginTop: 7,

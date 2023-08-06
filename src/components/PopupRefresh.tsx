@@ -28,9 +28,7 @@ const PopupRefresh: React.FC<ChildComponentProps> = ({ callback, visible }) => {
                             <Text style={styles.closeButtonText}>Hủy</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.okButton} onPress={() => {
-                           // handleResetDataTable()
                             callback(false, true)
-                            //handleFetchRecycle()
                         }}>
                             <Text style={styles.okButtonText}>Đặt lại</Text>
                         </TouchableOpacity>
@@ -39,8 +37,8 @@ const PopupRefresh: React.FC<ChildComponentProps> = ({ callback, visible }) => {
                 </View>
             </View>
         </Modal>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
