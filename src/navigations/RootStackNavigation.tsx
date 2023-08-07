@@ -10,6 +10,7 @@ import QuantityScreen from '../screens/QuantityScreen';
 import ScanQRScreen from '../screens/ScanQRScreen';
 import StaticsScreen from '../screens/StatisticsScreen';
 import HomeScreen from '../screens/HomeScreen';
+import AccumulatedPointsScreen from '../screens/AccumulatedPointsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
@@ -23,8 +24,8 @@ const RootStackNavigation = () => {
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="ScanQRScreen" component={ScanQRScreen} />
-          <Stack.Screen name="StaticsScreen" component={StaticsScreen} />
-          
+          {/* <Stack.Screen name="StaticsScreen" component={StaticsScreen} /> */}
+          <Stack.Screen name="AccumulatedPointsScreen" component={AccumulatedPointsScreen} />
           
         </Stack.Navigator>
       </NavigationContainer>

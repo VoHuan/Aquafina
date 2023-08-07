@@ -1,15 +1,12 @@
 import {
     StyleSheet,
     View,
-    Image,
     ImageBackground,
-    Alert,
     Text,
-    Dimensions,
     TouchableOpacity,
-    TextInput,
     Animated,
     InteractionManager,
+    Keyboard,
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import Constants from '../ultils/Constants';
@@ -20,13 +17,13 @@ import Header from '../components/Header';
 import UIButton from '../components/UIButton';
 import QuantityScreen from './QuantityScreen';
 import StaticsScreen from './StatisticsScreen';
-import PopupRefresh from '../components/PopupRefresh';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
 import { fetchRecycle } from '../features/recycling/recycleSlice';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import SuccessMesseage from '../components/SuccessMessage';
+import { getRecycleFromAsyncStorage, saveRecycleToAsyncStorage } from '../AsyncStorage/recycle';
 
 
 type HomeScreenProps = {
@@ -44,33 +41,57 @@ interface MyObject {
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
 
     const [selectQuantityButton, setSelectQuantityButton] = useState(true)
+    const [keyboardIsShow, setKeyboardIsShow] = useState(false)
     
     const pan = useRef(new Animated.ValueXY({ x: 0, y: -500 })).current;
 
     const recycle = useSelector((state: RootState) => state.recycle.recycle);
-    const recycle1 = useSelector((state: RootState) => state.recycle);
     const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>();
+    
     const [nameRecycle, setNameRecycle] = useState('Unknown')
+    
+    const handleFetchRecycle = async (doc: string) => {
+        await dispatch(fetchRecycle(doc)); // get data recycle from ffirebase
+    }
 
-    // get data recycle01
-    const handleFetchRecycle = async () => {
-        if (recycle?.document !== undefined) {
-            await dispatch(fetchRecycle(recycle?.document));
+    const handleLoginWithAsyncStorage = async () => {
+        const recycleStorage = await getRecycleFromAsyncStorage()
+        if (recycleStorage !== null && recycleStorage !== undefined) {
+            await handleFetchRecycle(recycleStorage.document)
+            setNameRecycle(recycleStorage.name)
         }
     }
 
+  
     useEffect(() => {
+        //  login with scan
         if (recycle?.name !== undefined && recycle?.name !== null && recycle?.name !== '') {
-            setNameRecycle(recycle?.name) // get name recycle
+            setNameRecycle(recycle?.name)  //get name recycle for header
+            saveRecycleToAsyncStorage(recycle)
         }
-        handleFetchRecycle()
+        //login with asyncstorage
+        else {
+            if (recycle?.name === undefined || recycle?.name === null || recycle?.name === '') {
+                handleLoginWithAsyncStorage()
+            }
+        }
     }, [recycle]);
 
 
+    useEffect(() => {
+        Keyboard.addListener('keyboardDidShow', () => {
+            setKeyboardIsShow(true)
+        })
+        Keyboard.addListener('keyboardDidHide', () => {
+            setKeyboardIsShow(false)
+        })
+    })
+
+
     const handleNotificationSuccess = (reset: boolean) => {
-        if(reset == true){
+        if (reset == true) {
             Animated.timing(pan, {
-                toValue: { x: 0, y:-80 },
+                toValue: { x: 0, y: -80 },
                 duration: 500,
                 useNativeDriver: true,
             }).start(() => {
@@ -80,11 +101,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
                         toValue: { x: 0, y: -500 },
                         duration: 500,
                         useNativeDriver: true,
-                        delay: 500, 
+                        delay: 500,
                     }).start();
                 })
             })
-        }    
+        }
     }
 
     return (
@@ -130,28 +151,30 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
                     <SuccessMesseage />
                 </Animated.View>
             </View>
-            
 
-            
+
+
             <View style={styles.body}>
                 {selectQuantityButton == true ? <QuantityScreen /> : <StaticsScreen callback={handleNotificationSuccess} />}
             </View>
 
-            
-            <View style={{
+
+            {keyboardIsShow == false && <View style={{
                 flex: 1,
                 justifyContent: 'flex-end',
                 marginBottom: 15
 
             }}>
                 <UIButton
-                    onPress={()=>{}}
+                    onPress={() => {
+                        navigation.navigate('AccumulatedPointsScreen')
+                    }}
                     text={selectQuantityButton == true ? 'Xuất mã QR' : 'Xác nhận'}
                     color='blue'
                     disable={false}></UIButton>
-            </View>
+            </View>}
 
-            
+
 
         </View>
     )

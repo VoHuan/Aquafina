@@ -2,11 +2,9 @@ import firestore from '@react-native-firebase/firestore';
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 interface Recycle {
   document: string;
-  AquaBottles: number
-  OtherBottles: number
-  Points: number
-  RemainingCapacity: number
-  TotalCapacity: number
+  AccumulatedPoints: number
+  TotalRemain: number
+  TotalContain: number
   name: string
   Exchanges: []
 }
@@ -67,17 +65,17 @@ export const addDataToFirebase = createAsyncThunk(
         .doc('3120410190');
 
 
-      // await recycleDocumentRef.update({
-      //   Exchanges: firestore.FieldValue.arrayUnion(...objects),
-      // })
+      await recycleDocumentRef.update({
+        Exchanges: firestore.FieldValue.arrayUnion(...objects),
+      })
 
-      const snapshot = await recycleDocumentRef.get();
-      const existingData = snapshot.data();
+      // const snapshot = await recycleDocumentRef.get();
+      // const existingData = snapshot.data();
 
-      const newData = {
-        Exchanges: [...existingData?.Exchanges, ...objects],
-      };
-      await recycleDocumentRef.set(newData);
+      // const newData = {
+      //   Exchanges: [...existingData?.Exchanges, ...objects],
+      // };
+      // await recycleDocumentRef.set(newData);
 
       console.log('Thêm dữ liệu thành công')
       return true
@@ -108,6 +106,27 @@ export const resetDataInFirebase = createAsyncThunk(
     }
   }
 )
+
+export const updateTotalRemain = createAsyncThunk<boolean, { message: string, newData: number }>(
+  'recycle/updateTotalRemain',
+  async ({ message, newData }) => {
+    try {
+      const recycleDocumentRef = firestore()
+        .collection('recycle01')
+        .doc(message)
+        //.update({ TotalRemain: newData });
+
+      await recycleDocumentRef.update({
+        TotalRemain: newData,
+      })
+      console.log('recycle updated successfully');
+      return true;
+    } catch (error) {
+      console.log('Failed to update total remain recycle: ', error);
+      return false;
+    }
+  }
+);
 
 
 const recycleSlice = createSlice({

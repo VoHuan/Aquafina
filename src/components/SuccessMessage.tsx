@@ -4,7 +4,10 @@ import Colors from '../ultils/Colors';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import FontSizes from '../ultils/FontSizes';
 
-const SuccessMesseage = () => {
+type SuccessMessageProps = {
+
+}
+const SuccessMesseage : React.FC<SuccessMessageProps> = ({  }) => {
     return (
         <View>
             <View style={styles.container}>

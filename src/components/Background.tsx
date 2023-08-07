@@ -7,7 +7,10 @@ import {
 import React from 'react';
 import Constants from '../ultils/Constants';
 
-const Background = () => {
+type Background = {
+    
+}
+const Background : React.FC<Background> = ({ }) => {
     return (
         <Image source={Constants.BACKGROUND} style={styles.background} />
     )

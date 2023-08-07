@@ -5,4 +5,5 @@ export type RootStackParams = {
   StaticsScreen: undefined;
   HomeScreen : undefined;
   PopupRefresh : undefined;
+  AccumulatedPointsScreen: undefined;
 };

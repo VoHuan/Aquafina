@@ -4,12 +4,12 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import SquareMarker from '../components/SquareMarker';
 import TextMaker from '../components/TextMarker';
 
-import firestore from '@react-native-firebase/firestore';
+import { saveRecycleToAsyncStorage, getRecycleFromAsyncStorage } from '../AsyncStorage/recycle';
 
-import {useDispatch, useSelector} from 'react-redux';
-import {AppDispatch, RootState} from '../app/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../app/store';
 import { fetchRecycle } from '../features/recycling/recycleSlice';
-import {Action, ThunkDispatch} from '@reduxjs/toolkit';
+import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 
 type QuantityScreenProps = {
   navigation: any;
@@ -26,25 +26,26 @@ const ScanQRScreen: React.FC<QuantityScreenProps> = ({ navigation, route }) => {
 
 
   const handleFetchRecycle = async (doc: string) => {
-    await dispatch(fetchRecycle(doc));
+    await dispatch(fetchRecycle(doc));   // get recycle from firebase
   }
- 
+
 
   const onSuccess = async (e: { data: any; }) => {
     //Alert.alert(e.data);
-    if(e.data !== null && e.data !==''){
+    if (e.data !== null && e.data !== '') {
       navigation.replace('HomeScreen')
-      await handleFetchRecycle(e.data)
+      await handleFetchRecycle(e.data)  
     }
   };
 
- 
-  useEffect(() => {
-    console.log(recycle1)
-    console.log(recycle)
-    console.log(recycle?.Exchanges)
-    console.log(typeof recycle?.Exchanges )
-}, [recycle]);
+
+    useEffect(() => {
+      if( recycle?.name !== undefined && recycle.name !== null && recycle.name !== ''){
+        saveRecycleToAsyncStorage(recycle) // save recycle to AsyncStorage
+      }
+  }, [recycle]);
+
+  
 
   // UI ScanQR screen
   const combinedMarker = (

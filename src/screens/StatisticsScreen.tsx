@@ -1,18 +1,10 @@
 import {
     StyleSheet,
     View,
-    Image,
-    ImageBackground,
-    Alert,
     Text,
-    Dimensions,
     TouchableOpacity,
-    TextInput,
-    Animated,
-    InteractionManager,
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import Constants from '../ultils/Constants';
 import Colors from '../ultils/Colors';
 import FontSizes from '../ultils/FontSizes';
 import DataTable from '../components/DataTable';
@@ -23,8 +15,8 @@ import { Action } from '@reduxjs/toolkit';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import PopupRefresh from '../components/PopupRefresh';
 
-import { fetchRecycle, resetDataInFirebase } from '../features/recycling/recycleSlice';
-import SuccessMesseage from '../components/SuccessMessage';
+import { fetchRecycle, resetDataInFirebase, updateTotalRemain } from '../features/recycling/recycleSlice';
+
 
 type StaticsScreenProps = {
     callback: (reset: boolean) => void;
@@ -46,9 +38,6 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({ callback }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [visiblePopupRresh, setVisiblePopupRresh] = useState(false)
     const [reset, setReset] = useState(false)
-
-
-
 
     const totalOfLineData: number = recycle?.Exchanges != undefined ? recycle?.Exchanges.length : 0
     const totalPages = totalOfLineData % 5 > 0 ? Math.floor(totalOfLineData / 5) + 1 : Math.floor(totalOfLineData / 5)  // total pages of pagination
@@ -108,7 +97,11 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({ callback }) => {
 
     const renderPagination = () => {
         const pageButtons = []
+        
         if (currentPage == totalPages - 3) {
+            // pagination example
+            // currentPage = 9, totalPages = 12
+            // < 9 10 11 12 >
             for (let i = currentPage; i < totalPages + 1; i++) {
                 pageButtons.push(
                     <Text
@@ -127,6 +120,9 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({ callback }) => {
             }
         }
         else if (currentPage > totalPages - 3) {
+            // pagination example
+            // currentPage = 10, totalPages = 12
+            // < 9 10 11 12 >
             for (let i = totalPages - 3; i < totalPages + 1; i++) {
                 pageButtons.push(
                     <Text
@@ -145,8 +141,11 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({ callback }) => {
             }
         }
         else {
+            // pagination example
+            // currentPage = 1, totalPages = 12
+            // < 1 2 ... 12 >
+            // < 2 3 ... 12 >
             for (let i = currentPage; i < 5 + currentPage; i++) {
-
                 if (i == currentPage + 2) {
                     pageButtons.push(
                         <Text
@@ -202,6 +201,7 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({ callback }) => {
             let success = await dispatch(resetDataInFirebase(recycle?.document))
             // reset success
             if (success) {
+                await dispatch(updateTotalRemain({ message: recycle?.document, newData: recycle?.TotalContain})); // update total contain
                 callback(true)  // callback HomeScreen display SuccessMesseage
             }
         }
@@ -223,7 +223,7 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({ callback }) => {
                         Tổng sức chứa
                     </Text>
                     <View style={styles.layoutNumber}>
-                        <Text style={styles.number}>100</Text>
+                        <Text style={styles.number}>{recycle?.TotalContain}</Text>
                     </View>
                 </View>
 
@@ -232,7 +232,7 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({ callback }) => {
                         Sức chứa còn lại
                     </Text>
                     <View style={styles.layoutNumber}>
-                        <Text style={styles.number}>2</Text>
+                        <Text style={styles.number}>{recycle?.TotalRemain}</Text>
                     </View>
                 </View>
             </View>
