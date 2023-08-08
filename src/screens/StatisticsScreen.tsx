@@ -210,6 +210,7 @@ const StaticsScreen: React.FC<StaticsScreenProps> = ({ callback }) => {
     useEffect(() => {
         if (reset == true) {
             handleResetDataTable()
+            //handleFetchRecycle()
         }
     }, [reset]);
 

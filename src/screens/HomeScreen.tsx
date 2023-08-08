@@ -66,8 +66,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
     useEffect(() => {
         //  login with scan
         if (recycle?.name !== undefined && recycle?.name !== null && recycle?.name !== '') {
-            setNameRecycle(recycle?.name)  //get name recycle for header
+            setNameRecycle(recycle?.name)  //get name recycle for header      
+            handleFetchRecycle(recycle?.document)
             saveRecycleToAsyncStorage(recycle)
+            
         }
         //login with asyncstorage
         else {
@@ -76,7 +78,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
             }
         }
     }, [recycle]);
-
 
     useEffect(() => {
         Keyboard.addListener('keyboardDidShow', () => {

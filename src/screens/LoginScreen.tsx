@@ -26,43 +26,9 @@ type LoginScreenProps = {
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation, route }) => {
 
-  const data = [{ "AquaBottles": 5, "OtherBottles": 5, "quantity": 10, "time": "12/03/2023" },
-  { "AquaBottles": 81, "OtherBottles": 2, "quantity": 10, "time": "15/03/2023" },
-  { "AquaBottles": 107, "OtherBottles": 5, "quantity": 15, "time": "16/04/2023" },
-  { "AquaBottles": 122, "OtherBottles": 1, "quantity": 13, "time": "17/04/2023" },
-  { "AquaBottles": 7, "OtherBottles": 7, "quantity": 14, "time": "18/04/2023" },
-  { "AquaBottles": 12, "OtherBottles": 3, "quantity": 15, "time": "19/04/2023" },
-  { "AquaBottles": 1, "OtherBottles": 7, "quantity": 17, "time": "20/04/2023" },
-  { "AquaBottles": 8, "OtherBottles": 3, "quantity": 11, "time": "01/05/2023" },
-  { "AquaBottles": 19, "OtherBottles": 1, "quantity": 111, "time": "02/05/2023" },
-  { "AquaBottles": 11, "OtherBottles": 5, "quantity": 18, "time": "05/05/2023" },
-  { "AquaBottles": 5, "OtherBottles": 1, "quantity": 6, "time": "17/05/2023" },
-  { "AquaBottles": 4, "OtherBottles": 6, "quantity": 110, "time": "15/03/2023" },
-  { "AquaBottles": 7, "OtherBottles": 8, "quantity": 20, "time": "12/03/2023" },
-  { "AquaBottles": 10, "OtherBottles": 10, "quantity": 210, "time": "15/03/2023" },
-  { "AquaBottles": 8, "OtherBottles": 2, "quantity": 10, "time": "15/03/2023" },
-  { "AquaBottles": 10, "OtherBottles": 5, "quantity": 115, "time": "16/04/2023" },
-  { "AquaBottles": 12, "OtherBottles": 1, "quantity": 13, "time": "17/04/2023" },
-  { "AquaBottles": 7, "OtherBottles": 7, "quantity": 14, "time": "18/04/2023" },
-  { "AquaBottles": 10, "OtherBottles": 7, "quantity": 17, "time": "20/04/2023" },
-  { "AquaBottles": 8, "OtherBottles": 3, "quantity": 11, "time": "01/05/2023" },
-  { "AquaBottles": 17, "OtherBottles": 1, "quantity": 11, "time": "02/05/2023" },
-  { "AquaBottles": 13, "OtherBottles": 5, "quantity": 118, "time": "05/05/2023" },
-  { "AquaBottles": 15, "OtherBottles": 1, "quantity": 11, "time": "02/05/2023" },
-  { "AquaBottles": 13, "OtherBottles": 5, "quantity": 18, "time": "05/05/2023" },
-  { "AquaBottles": 5, "OtherBottles": 1, "quantity": 6, "time": "17/05/2023" },
-  { "AquaBottles": 4, "OtherBottles": 6, "quantity": 10, "time": "15/03/2023" },
-  { "AquaBottles": 12, "OtherBottles": 8, "quantity": 10, "time": "12/03/2023" },
-  ]
-
   const recycle = useSelector((state: RootState) => state.recycle.recycle);
   const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>();
   const [nameRecycle, setNameRecycle] = useState('Unknown')
-
-
-  const handleAddData = async (data: any) => {
-    await dispatch(addDataToFirebase(data));
-  }
 
   // function get recycle from AsyncStorage then update recycle in store
   const handleGetRecycleFromAsyncStorage = async () => {
@@ -82,7 +48,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation, route }) => {
     if (recycle?.name !== null && recycle?.name !== undefined) {
       setNameRecycle(recycle.name)
     }
-    //handleAddData(data)
   }, [recycle]);
 
   return (<View style={styles.container}>
